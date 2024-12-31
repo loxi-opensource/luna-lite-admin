@@ -13,7 +13,15 @@
                     <el-input v-model="formData.name" clearable placeholder="请输入名称" />
                 </el-form-item>
                 <el-form-item label="模板分组" prop="group_id">
-                    <el-input v-model="formData.group_id" clearable placeholder="请输入模板分组" />
+                    <el-select v-model="formData.group_id">
+                        <el-option label="全部" value />
+                        <el-option
+                            v-for="item in optionData.template_group"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="目标图" prop="target_image">
                     <material-picker v-model="formData.target_image" />
@@ -40,9 +48,12 @@ import type { PropType } from 'vue'
 
 import { apiSwapTemplateAdd, apiSwapTemplateDetail, apiSwapTemplateEdit } from '@/api/swap_template'
 import Popup from '@/components/popup/index.vue'
-import { timeFormat } from '@/utils/util'
 defineProps({
     dictData: {
+        type: Object as PropType<Record<string, any[]>>,
+        default: () => ({})
+    },
+    optionData: {
         type: Object as PropType<Record<string, any[]>>,
         default: () => ({})
     }

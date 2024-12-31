@@ -107,6 +107,7 @@
             v-if="showEdit"
             ref="editRef"
             :dict-data="dictData"
+            :option-data="optionsData"
             @success="getLists"
             @close="showEdit = false"
         />
