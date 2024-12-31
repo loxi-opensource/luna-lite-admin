@@ -74,6 +74,26 @@
                             />
                         </template>
                     </el-table-column>
+                    <el-table-column label="模板" prop="template_name" show-overflow-tooltip />
+                    <el-table-column
+                        label="模板分组"
+                        prop="template_group_name"
+                        show-overflow-tooltip
+                    />
+                    <el-table-column label="脸部图" prop="face_image">
+                        <template #default="{ row }">
+                            <image-contain
+                                v-if="row.face_image"
+                                :src="row.face_image"
+                                :height="60"
+                                :width="60"
+                                object-fit="contain"
+                                :preview-src-list="[row.face_image]"
+                                preview-teleported
+                                fit="contain"
+                            />
+                        </template>
+                    </el-table-column>
                     <el-table-column label="创建时间" prop="create_time" show-overflow-tooltip />
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
