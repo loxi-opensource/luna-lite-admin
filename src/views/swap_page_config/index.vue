@@ -65,6 +65,10 @@
                     <div class="h-[800px] overflow-auto custom-scrollbar">
                         <div class="flex justify-between my-4">
                             <h3>未使用的模板分组</h3>
+                            <div class="text-info flex items-center">
+                                <icon name="el-icon-InfoFilled" size="14" />
+                                <span> 拖动元素到左侧，可自由排序 </span>
+                            </div>
                         </div>
                         <draggable
                             class="flex flex-col space-y-2 min-h-[400px]"
@@ -94,14 +98,9 @@ import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 import Draggable from 'vuedraggable'
 
-import {
-    apiSwapPageConfigDelete,
-    apiSwapPageConfigEdit,
-    apiSwapPageConfigLists
-} from '@/api/swap_page_config'
+import { apiSwapPageConfigEdit, apiSwapPageConfigLists } from '@/api/swap_page_config'
 import { useDictData } from '@/hooks/useDictOptions'
 import { usePaging } from '@/hooks/usePaging'
-import feedback from '@/utils/feedback'
 
 import EditPopup from './edit.vue'
 
