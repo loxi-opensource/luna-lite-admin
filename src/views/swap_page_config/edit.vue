@@ -10,11 +10,11 @@
         >
             <el-form ref="formRef" :model="formData" label-width="90px" :rules="formRules">
                 <el-form-item label="名称" prop="name">
-    <el-input v-model="formData.name" clearable placeholder="请输入名称" />
-</el-form-item>
+                    <el-input v-model="formData.name" clearable placeholder="请输入名称" />
+                </el-form-item>
                 <el-form-item label="页面配置" prop="page_data">
-    <el-input v-model="formData.page_data" clearable placeholder="请输入页面配置" />
-</el-form-item>
+                    <el-input v-model="formData.page_data" clearable placeholder="请输入页面配置" />
+                </el-form-item>
             </el-form>
         </popup>
     </div>
@@ -22,10 +22,15 @@
 
 <script lang="ts" setup name="swapPageConfigEdit">
 import type { FormInstance } from 'element-plus'
-import Popup from '@/components/popup/index.vue'
-import { apiSwapPageConfigAdd, apiSwapPageConfigEdit, apiSwapPageConfigDetail } from '@/api/swap_page_config'
-import { timeFormat } from '@/utils/util'
 import type { PropType } from 'vue'
+
+import {
+    apiSwapPageConfigAdd,
+    apiSwapPageConfigDetail,
+    apiSwapPageConfigEdit
+} from '@/api/swap_page_config'
+import Popup from '@/components/popup/index.vue'
+import { timeFormat } from '@/utils/util'
 defineProps({
     dictData: {
         type: Object as PropType<Record<string, any[]>>,
@@ -37,7 +42,6 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 
-
 // 弹窗标题
 const popupTitle = computed(() => {
     return mode.value == 'edit' ? '编辑换脸页面配置' : '新增换脸页面配置'
@@ -47,19 +51,19 @@ const popupTitle = computed(() => {
 const formData = reactive({
     id: '',
     name: '',
-    page_data: '',
+    page_data: ''
 })
-
 
 // 表单验证
 const formRules = reactive<any>({
-    name: [{
-        required: true,
-        message: '请输入名称',
-        trigger: ['blur']
-    }],
+    name: [
+        {
+            required: true,
+            message: '请输入名称',
+            trigger: ['blur']
+        }
+    ]
 })
-
 
 // 获取详情
 const setFormData = async (data: Record<any, any>) => {
@@ -69,8 +73,6 @@ const setFormData = async (data: Record<any, any>) => {
             formData[key] = data[key]
         }
     }
-    
-    
 }
 
 const getDetail = async (row: Record<string, any>) => {
@@ -80,14 +82,11 @@ const getDetail = async (row: Record<string, any>) => {
     setFormData(data)
 }
 
-
 // 提交按钮
 const handleSubmit = async () => {
     await formRef.value?.validate()
-    const data = { ...formData,  }
-    mode.value == 'edit' 
-        ? await apiSwapPageConfigEdit(data) 
-        : await apiSwapPageConfigAdd(data)
+    const data = { ...formData }
+    mode.value == 'edit' ? await apiSwapPageConfigEdit(data) : await apiSwapPageConfigAdd(data)
     popupRef.value?.close()
     emit('success')
 }
@@ -102,8 +101,6 @@ const open = (type = 'add') => {
 const handleClose = () => {
     emit('close')
 }
-
-
 
 defineExpose({
     open,

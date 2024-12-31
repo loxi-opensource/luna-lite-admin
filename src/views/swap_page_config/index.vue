@@ -1,12 +1,7 @@
 <template>
     <div>
         <el-card class="!border-none mb-4" shadow="never">
-            <el-form
-                class="mb-[-16px]"
-                :model="queryParams"
-                inline
-            >
-                
+            <el-form class="mb-[-16px]" :model="queryParams" inline>
                 <el-form-item>
                     <el-button type="primary" @click="resetPage">查询</el-button>
                     <el-button @click="resetParams">重置</el-button>
@@ -35,7 +30,7 @@
                     <el-table-column label="页面配置" prop="page_data" show-overflow-tooltip />
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
-                             <el-button
+                            <el-button
                                 v-perms="['swap_page_config/edit']"
                                 type="primary"
                                 link
@@ -59,27 +54,31 @@
                 <pagination v-model="pager" @change="getLists" />
             </div>
         </el-card>
-        <edit-popup v-if="showEdit" ref="editRef" :dict-data="dictData" @success="getLists" @close="showEdit = false" />
+        <edit-popup
+            v-if="showEdit"
+            ref="editRef"
+            :dict-data="dictData"
+            @success="getLists"
+            @close="showEdit = false"
+        />
     </div>
 </template>
 
 <script lang="ts" setup name="swapPageConfigLists">
-import { usePaging } from '@/hooks/usePaging'
+import { apiSwapPageConfigDelete, apiSwapPageConfigLists } from '@/api/swap_page_config'
 import { useDictData } from '@/hooks/useDictOptions'
-import { apiSwapPageConfigLists, apiSwapPageConfigDelete } from '@/api/swap_page_config'
-import { timeFormat } from '@/utils/util'
+import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
+import { timeFormat } from '@/utils/util'
+
 import EditPopup from './edit.vue'
 
 const editRef = shallowRef<InstanceType<typeof EditPopup>>()
 // 是否显示编辑框
 const showEdit = ref(false)
 
-
 // 查询条件
-const queryParams = reactive({
-    
-})
+const queryParams = reactive({})
 
 // 选中数据
 const selectData = ref<any[]>([])
@@ -122,4 +121,3 @@ const handleDelete = async (id: number | any[]) => {
 
 getLists()
 </script>
-
