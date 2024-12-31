@@ -13,7 +13,7 @@
                                 :icon="Setting"
                                 @click="onOpenDrawer(row)"
                             >
-                                页面配置
+                                模板分组配置
                             </el-button>
                         </template>
                     </el-table-column>
@@ -29,7 +29,7 @@
         />
         <el-drawer
             v-model="drawer"
-            title="商品池 - 页面配置"
+            :title="drawerTitle"
             direction="rtl"
             :before-close="handleClose"
             size="60%"
@@ -105,6 +105,7 @@ import { usePaging } from '@/hooks/usePaging'
 import EditPopup from './edit.vue'
 
 const drawer = ref(false)
+const drawerTitle = ref('')
 const handleClose = (done: () => void) => {
     ElMessageBox.confirm('确认退出编辑？')
         .then(() => {
@@ -134,7 +135,7 @@ interface PageData {
     pending_list: any[]
 }
 
-// 定义页面配置类型
+// 定义模板分组配置类型
 interface PageConfig {
     id: number
     name: string
@@ -145,6 +146,7 @@ const drawerDetail = ref<PageConfig>(null)
 
 const onOpenDrawer = (row) => {
     drawerDetail.value = row as PageConfig
+    drawerTitle.value = `${drawerDetail.value.name} / 模板分组配置`
     drawer.value = true
     console.log(
         'drawerDetail',
