@@ -4,7 +4,7 @@
             <el-form class="mb-[-16px]" :model="queryParams" inline>
                 <el-form-item label="用户ID" prop="user_id">
                     <el-input
-                        class="w-[280px]"
+                        class="w-[180px]"
                         v-model="queryParams.user_id"
                         clearable
                         placeholder="请输入用户ID"
@@ -19,22 +19,59 @@
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
             <div>
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="55" />
-                    <el-table-column label="ID" prop="id" show-overflow-tooltip />
                     <el-table-column label="用户ID" prop="user_id" show-overflow-tooltip />
                     <el-table-column label="目标图" prop="target_image">
                         <template #default="{ row }">
-                            <el-image style="width: 50px; height: 50px" :src="row.target_image" />
+                            <image-contain
+                                v-if="row.target_image"
+                                :src="row.target_image"
+                                :height="60"
+                                :width="60"
+                                object-fit="contain"
+                                :preview-src-list="[
+                                    row.target_image,
+                                    row.user_image,
+                                    row.result_image
+                                ]"
+                                preview-teleported
+                                fit="contain"
+                            />
                         </template>
                     </el-table-column>
                     <el-table-column label="用户图" prop="user_image">
                         <template #default="{ row }">
-                            <el-image style="width: 50px; height: 50px" :src="row.user_image" />
+                            <image-contain
+                                v-if="row.user_image"
+                                :src="row.user_image"
+                                :height="60"
+                                :width="60"
+                                object-fit="contain"
+                                :preview-src-list="[
+                                    row.user_image,
+                                    row.target_image,
+                                    row.result_image
+                                ]"
+                                preview-teleported
+                                fit="contain"
+                            />
                         </template>
                     </el-table-column>
                     <el-table-column label="生成结果图" prop="result_image">
                         <template #default="{ row }">
-                            <el-image style="width: 50px; height: 50px" :src="row.result_image" />
+                            <image-contain
+                                v-if="row.result_image"
+                                :src="row.result_image"
+                                :height="60"
+                                :width="60"
+                                object-fit="contain"
+                                :preview-src-list="[
+                                    row.result_image,
+                                    row.target_image,
+                                    row.user_image
+                                ]"
+                                preview-teleported
+                                fit="contain"
+                            />
                         </template>
                     </el-table-column>
                     <el-table-column label="创建时间" prop="create_time" show-overflow-tooltip />

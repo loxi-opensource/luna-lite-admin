@@ -7,16 +7,8 @@
                 </template>
                 新增
             </el-button>
-            <el-button
-                v-perms="['swap_template_group/delete']"
-                :disabled="!selectData.length"
-                @click="handleDelete(selectData)"
-            >
-                删除
-            </el-button>
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="55" />
                     <el-table-column label="ID" prop="id" show-overflow-tooltip />
                     <el-table-column label="名称" prop="name" show-overflow-tooltip />
                     <el-table-column label="状态" prop="status">

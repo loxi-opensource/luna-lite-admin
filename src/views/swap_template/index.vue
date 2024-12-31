@@ -50,17 +50,23 @@
                 </template>
                 新增
             </el-button>
-            <el-button
-                v-perms="['swap_template/delete']"
-                :disabled="!selectData.length"
-                @click="handleDelete(selectData)"
-            >
-                删除
-            </el-button>
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="55" />
                     <el-table-column label="ID" prop="id" show-overflow-tooltip />
+                    <el-table-column label="目标图" prop="target_image">
+                        <template #default="{ row }">
+                            <image-contain
+                                v-if="row.target_image"
+                                :src="row.target_image"
+                                :height="60"
+                                :width="60"
+                                object-fit="contain"
+                                :preview-src-list="[row.target_image]"
+                                preview-teleported
+                                fit="contain"
+                            />
+                        </template>
+                    </el-table-column>
                     <el-table-column label="名称" prop="name" show-overflow-tooltip />
                     <el-table-column label="状态" prop="status">
                         <template #default="{ row }">
@@ -72,11 +78,6 @@
                         prop="template_group.name"
                         show-overflow-tooltip
                     />
-                    <el-table-column label="目标图" prop="target_image">
-                        <template #default="{ row }">
-                            <el-image style="width: 50px; height: 50px" :src="row.target_image" />
-                        </template>
-                    </el-table-column>
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
                             <el-button
