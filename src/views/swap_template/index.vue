@@ -4,15 +4,26 @@
             <el-form class="mb-[-16px]" :model="queryParams" inline>
                 <el-form-item label="名称" prop="name">
                     <el-input
-                        class="w-[280px]"
+                        class="w-[180px]"
                         v-model="queryParams.name"
                         clearable
                         placeholder="请输入名称"
                     />
                 </el-form-item>
+                <el-form-item label="模板分组" prop="group_id">
+                    <el-select v-model="queryParams.group_id" class="!w-[180px]">
+                        <el-option label="全部" value />
+                        <el-option
+                            v-for="item in optionsData.template_group"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        />
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="状态" prop="status">
                     <el-select
-                        class="w-[280px]"
+                        class="!w-[140px]"
                         v-model="queryParams.status"
                         clearable
                         placeholder="请选择状态"
@@ -23,17 +34,6 @@
                             :key="index"
                             :label="item.name"
                             :value="item.value"
-                        />
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="模板分组" prop="group_id">
-                    <el-select v-model="queryParams.group_id">
-                        <el-option label="全部" value />
-                        <el-option
-                            v-for="item in optionsData.template_group"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
                         />
                     </el-select>
                 </el-form-item>
@@ -60,6 +60,7 @@
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" />
+                    <el-table-column label="ID" prop="id" show-overflow-tooltip />
                     <el-table-column label="名称" prop="name" show-overflow-tooltip />
                     <el-table-column label="状态" prop="status">
                         <template #default="{ row }">

@@ -12,22 +12,22 @@
                 <el-form-item label="名称" prop="name">
                     <el-input v-model="formData.name" clearable placeholder="请输入名称" />
                 </el-form-item>
-                <el-form-item label="状态" prop="status">
-                    <el-radio-group v-model="formData.status" placeholder="请选择状态">
-                        <el-radio
-                            v-for="(item, index) in dictData.show_status"
-                            :key="index"
-                            :label="parseInt(item.value)"
-                        >
-                            {{ item.name }}
-                        </el-radio>
-                    </el-radio-group>
-                </el-form-item>
                 <el-form-item label="模板分组" prop="group_id">
                     <el-input v-model="formData.group_id" clearable placeholder="请输入模板分组" />
                 </el-form-item>
                 <el-form-item label="目标图" prop="target_image">
                     <material-picker v-model="formData.target_image" />
+                </el-form-item>
+                <el-form-item label="状态" prop="status">
+                    <el-radio-group v-model="formData.status" placeholder="请选择状态">
+                        <el-radio
+                            v-for="(item, index) in dictData.show_status"
+                            :key="index"
+                            :value="parseInt(item.value)"
+                        >
+                            {{ item.name }}
+                        </el-radio>
+                    </el-radio-group>
                 </el-form-item>
             </el-form>
         </popup>
@@ -61,7 +61,7 @@ const popupTitle = computed(() => {
 const formData = reactive({
     id: '',
     name: '',
-    status: '',
+    status: 1,
     group_id: '',
     target_image: ''
 })

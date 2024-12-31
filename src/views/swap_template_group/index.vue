@@ -1,13 +1,5 @@
 <template>
     <div>
-        <el-card class="!border-none mb-4" shadow="never">
-            <el-form class="mb-[-16px]" :model="queryParams" inline>
-                <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
             <el-button v-perms="['swap_template_group/add']" type="primary" @click="handleAdd">
                 <template #icon>

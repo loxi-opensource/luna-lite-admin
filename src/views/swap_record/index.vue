@@ -17,20 +17,7 @@
             </el-form>
         </el-card>
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
-            <el-button v-perms="['swap_record/add']" type="primary" @click="handleAdd">
-                <template #icon>
-                    <icon name="el-icon-Plus" />
-                </template>
-                新增
-            </el-button>
-            <el-button
-                v-perms="['swap_record/delete']"
-                :disabled="!selectData.length"
-                @click="handleDelete(selectData)"
-            >
-                删除
-            </el-button>
-            <div class="mt-4">
+            <div>
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" />
                     <el-table-column label="ID" prop="id" show-overflow-tooltip />
@@ -53,14 +40,6 @@
                     <el-table-column label="创建时间" prop="create_time" show-overflow-tooltip />
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
-                            <el-button
-                                v-perms="['swap_record/edit']"
-                                type="primary"
-                                link
-                                @click="handleEdit(row)"
-                            >
-                                编辑
-                            </el-button>
                             <el-button
                                 v-perms="['swap_record/delete']"
                                 type="danger"
@@ -93,8 +72,6 @@ import { useDictData } from '@/hooks/useDictOptions'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
 import { timeFormat } from '@/utils/util'
-
-import EditPopup from './edit.vue'
 
 const editRef = shallowRef<InstanceType<typeof EditPopup>>()
 // 是否显示编辑框
