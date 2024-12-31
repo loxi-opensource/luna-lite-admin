@@ -9,7 +9,6 @@
             @close="handleClose"
         >
             <el-form ref="formRef" :model="formData" label-width="90px" :rules="formRules">
-                
             </el-form>
         </popup>
     </div>
@@ -17,10 +16,11 @@
 
 <script lang="ts" setup name="feedbackEdit">
 import type { FormInstance } from 'element-plus'
-import Popup from '@/components/popup/index.vue'
-import { apiFeedbackAdd, apiFeedbackEdit, apiFeedbackDetail } from '@/api/feedback'
-import { timeFormat } from '@/utils/util'
 import type { PropType } from 'vue'
+
+import { apiFeedbackAdd, apiFeedbackDetail, apiFeedbackEdit } from '@/api/feedback'
+import Popup from '@/components/popup/index.vue'
+import { timeFormat } from '@/utils/util'
 defineProps({
     dictData: {
         type: Object as PropType<Record<string, any[]>>,
@@ -32,7 +32,6 @@ const formRef = shallowRef<FormInstance>()
 const popupRef = shallowRef<InstanceType<typeof Popup>>()
 const mode = ref('add')
 
-
 // 弹窗标题
 const popupTitle = computed(() => {
     return mode.value == 'edit' ? '编辑意见反馈表' : '新增意见反馈表'
@@ -40,16 +39,11 @@ const popupTitle = computed(() => {
 
 // 表单数据
 const formData = reactive({
-    id: '',
-    
+    id: ''
 })
-
 
 // 表单验证
-const formRules = reactive<any>({
-
-})
-
+const formRules = reactive<any>({})
 
 // 获取详情
 const setFormData = async (data: Record<any, any>) => {
@@ -59,8 +53,6 @@ const setFormData = async (data: Record<any, any>) => {
             formData[key] = data[key]
         }
     }
-    
-    
 }
 
 const getDetail = async (row: Record<string, any>) => {
@@ -70,14 +62,11 @@ const getDetail = async (row: Record<string, any>) => {
     setFormData(data)
 }
 
-
 // 提交按钮
 const handleSubmit = async () => {
     await formRef.value?.validate()
-    const data = { ...formData,  }
-    mode.value == 'edit' 
-        ? await apiFeedbackEdit(data) 
-        : await apiFeedbackAdd(data)
+    const data = { ...formData }
+    mode.value == 'edit' ? await apiFeedbackEdit(data) : await apiFeedbackAdd(data)
     popupRef.value?.close()
     emit('success')
 }
@@ -92,8 +81,6 @@ const open = (type = 'add') => {
 const handleClose = () => {
     emit('close')
 }
-
-
 
 defineExpose({
     open,
