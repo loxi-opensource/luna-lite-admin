@@ -12,9 +12,6 @@
                 <el-form-item label="名称" prop="name">
                     <el-input v-model="formData.name" clearable placeholder="请输入名称" />
                 </el-form-item>
-                <el-form-item label="页面配置" prop="page_data">
-                    <el-input v-model="formData.page_data" clearable placeholder="请输入页面配置" />
-                </el-form-item>
             </el-form>
         </popup>
     </div>
@@ -30,7 +27,6 @@ import {
     apiSwapPageConfigEdit
 } from '@/api/swap_page_config'
 import Popup from '@/components/popup/index.vue'
-import { timeFormat } from '@/utils/util'
 defineProps({
     dictData: {
         type: Object as PropType<Record<string, any[]>>,
@@ -50,8 +46,7 @@ const popupTitle = computed(() => {
 // 表单数据
 const formData = reactive({
     id: '',
-    name: '',
-    page_data: ''
+    name: ''
 })
 
 // 表单验证

@@ -1,57 +1,23 @@
 <template>
     <div>
-        <el-card class="!border-none mb-4" shadow="never">
-            <el-form class="mb-[-16px]" :model="queryParams" inline>
-                <el-form-item>
-                    <el-button type="primary" @click="resetPage">查询</el-button>
-                    <el-button @click="resetParams">重置</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
-            <el-button v-perms="['swap_page_config/add']" type="primary" @click="handleAdd">
-                <template #icon>
-                    <icon name="el-icon-Plus" />
-                </template>
-                新增
-            </el-button>
-            <el-button
-                v-perms="['swap_page_config/delete']"
-                :disabled="!selectData.length"
-                @click="handleDelete(selectData)"
-            >
-                删除
-            </el-button>
-            <div class="mt-4">
+            <div>
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="55" />
-                    <el-table-column label="ID" prop="id" show-overflow-tooltip />
-                    <el-table-column label="名称" prop="name" show-overflow-tooltip />
-                    <el-table-column label="页面配置" prop="page_data" show-overflow-tooltip />
-                    <el-table-column label="操作" width="120" fixed="right">
+                    <el-table-column label="页面ID" prop="id" width="120" />
+                    <el-table-column label="名称" prop="name" width="200" />
+                    <el-table-column label="操作" width="200">
                         <template #default="{ row }">
                             <el-button
-                                v-perms="['swap_page_config/edit']"
                                 type="primary"
                                 link
-                                @click="handleEdit(row)"
+                                :icon="Setting"
+                                @click="onOpenDrawer(row)"
                             >
-                                编辑
-                            </el-button>
-                            <el-button
-                                v-perms="['swap_page_config/delete']"
-                                type="danger"
-                                link
-                                @click="handleDelete(row.id)"
-                            >
-                                删除
+                                页面配置
                             </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
-            </div>
-            <div class="flex mt-4 justify-end">
-                <pagination v-model="pager" @change="getLists" />
             </div>
         </el-card>
         <edit-popup
@@ -61,17 +27,132 @@
             @success="getLists"
             @close="showEdit = false"
         />
+        <el-drawer
+            v-model="drawer"
+            title="商品池 - 页面配置"
+            direction="rtl"
+            :before-close="handleClose"
+            size="60%"
+        >
+            <div class="flex justify-center gap-4">
+                <el-card class="w-2/5">
+                    <div class="h-[800px] overflow-auto custom-scrollbar">
+                        <div class="flex items-center my-4 gap-4">
+                            <span class="font-bold text-xl">显示模板分组</span>
+                            <el-button type="primary" @click="savePageData">保存</el-button>
+                        </div>
+                        <draggable
+                            class="flex flex-col space-y-2 min-h-[400px]"
+                            :list="drawerDetail.page_data?.show_list"
+                            group="people"
+                            @change="log"
+                            itemKey="name"
+                        >
+                            <template #item="{ element }">
+                                <div class="border-2 rounded-lg p-4 flex justify-between w-[280px]">
+                                    <div>
+                                        {{ element.name }}
+                                    </div>
+                                    <div class="drag-move cursor-move ml-auto">
+                                        <icon name="el-icon-Rank" size="18" />
+                                    </div>
+                                </div>
+                            </template>
+                        </draggable>
+                    </div>
+                </el-card>
+                <el-card class="w-2/5">
+                    <div class="h-[800px] overflow-auto custom-scrollbar">
+                        <div class="flex justify-between my-4">
+                            <h3>未使用的模板分组</h3>
+                        </div>
+                        <draggable
+                            class="flex flex-col space-y-2 min-h-[400px]"
+                            :list="drawerDetail.page_data?.pending_list"
+                            group="people"
+                            @change="log"
+                            :sort="false"
+                            itemKey="name"
+                        >
+                            <template #item="{ element }">
+                                <div class="border-2 rounded-lg p-4 flex justify-between w-[280px]">
+                                    <div>
+                                        {{ element.name }}
+                                    </div>
+                                </div>
+                            </template>
+                        </draggable>
+                    </div>
+                </el-card>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
 <script lang="ts" setup name="swapPageConfigLists">
-import { apiSwapPageConfigDelete, apiSwapPageConfigLists } from '@/api/swap_page_config'
+import { Setting } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
+import Draggable from 'vuedraggable'
+
+import {
+    apiSwapPageConfigDelete,
+    apiSwapPageConfigEdit,
+    apiSwapPageConfigLists
+} from '@/api/swap_page_config'
 import { useDictData } from '@/hooks/useDictOptions'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
-import { timeFormat } from '@/utils/util'
 
 import EditPopup from './edit.vue'
+
+const drawer = ref(false)
+const handleClose = (done: () => void) => {
+    ElMessageBox.confirm('确认退出编辑？')
+        .then(() => {
+            done()
+        })
+        .catch(() => {
+            // catch error
+        })
+}
+const log = (evt) => {
+    console.log('drag event', evt)
+}
+
+const savePageData = () => {
+    apiSwapPageConfigEdit({
+        id: drawerDetail.value.id,
+        name: drawerDetail.value.name,
+        page_data: drawerDetail.value.page_data
+    }).then(() => {
+        drawer.value = false
+    })
+}
+
+// 定义页面数据类型
+interface PageData {
+    show_list: any[]
+    pending_list: any[]
+}
+
+// 定义页面配置类型
+interface PageConfig {
+    id: number
+    name: string
+    page_data: PageData
+}
+
+const drawerDetail = ref<PageConfig>(null)
+
+const onOpenDrawer = (row) => {
+    drawerDetail.value = row as PageConfig
+    drawer.value = true
+    console.log(
+        'drawerDetail',
+        drawerDetail.value.page_data.show_list,
+        drawerDetail.value.page_data.pending_list
+    )
+}
 
 const editRef = shallowRef<InstanceType<typeof EditPopup>>()
 // 是否显示编辑框
@@ -97,13 +178,6 @@ const { pager, getLists, resetParams, resetPage } = usePaging({
     params: queryParams
 })
 
-// 添加
-const handleAdd = async () => {
-    showEdit.value = true
-    await nextTick()
-    editRef.value?.open('add')
-}
-
 // 编辑
 const handleEdit = async (data: any) => {
     showEdit.value = true
@@ -112,12 +186,30 @@ const handleEdit = async (data: any) => {
     editRef.value?.setFormData(data)
 }
 
-// 删除
-const handleDelete = async (id: number | any[]) => {
-    await feedback.confirm('确定要删除？')
-    await apiSwapPageConfigDelete({ id })
-    getLists()
-}
-
 getLists()
 </script>
+
+<style scoped>
+.custom-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--el-color-primary-light-5) transparent; /* Firefox */
+}
+
+/* WebKit (Chrome, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 1px; /* 滚动条宽度 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* 滚动条轨道 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--el-color-primary-light-5); /* 滚动条颜色 */
+    border-radius: 4px; /* 圆角 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--el-color-primary-light-5); /* 悬停时的颜色 */
+}
+</style>
