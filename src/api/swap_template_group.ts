@@ -24,3 +24,8 @@ export function apiSwapTemplateGroupDelete(params: any) {
 export function apiSwapTemplateGroupDetail(params: any) {
     return request.get({ url: '/swap_template_group/detail', params })
 }
+
+// 全部模板分组
+export function apiSwapTemplateGroupAll(params?: any) {
+    return request.get({ url: '/swap_template_group/all', params })
+}

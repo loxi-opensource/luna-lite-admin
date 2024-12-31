@@ -27,12 +27,15 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="模板分组" prop="group_id">
-                    <el-input
-                        class="w-[280px]"
-                        v-model="queryParams.group_id"
-                        clearable
-                        placeholder="请输入模板分组"
-                    />
+                    <el-select v-model="queryParams.group_id">
+                        <el-option label="全部" value />
+                        <el-option
+                            v-for="item in optionsData.template_group"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        />
+                    </el-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="resetPage">查询</el-button>
@@ -63,7 +66,11 @@
                             <dict-value :options="dictData.show_status" :value="row.status" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="模板分组" prop="group_id" show-overflow-tooltip />
+                    <el-table-column
+                        label="模板分组"
+                        prop="template_group.name"
+                        show-overflow-tooltip
+                    />
                     <el-table-column label="目标图" prop="target_image">
                         <template #default="{ row }">
                             <el-image style="width: 50px; height: 50px" :src="row.target_image" />
@@ -106,8 +113,10 @@
 </template>
 
 <script lang="ts" setup name="swapTemplateLists">
+import { articleCateAll } from '@/api/article'
 import { apiSwapTemplateDelete, apiSwapTemplateLists } from '@/api/swap_template'
-import { useDictData } from '@/hooks/useDictOptions'
+import { apiSwapTemplateGroupAll } from '@/api/swap_template_group'
+import { useDictData, useDictOptions } from '@/hooks/useDictOptions'
 import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
 import { timeFormat } from '@/utils/util'
@@ -163,6 +172,14 @@ const handleDelete = async (id: number | any[]) => {
     await apiSwapTemplateDelete({ id })
     getLists()
 }
+
+const { optionsData } = useDictOptions<{
+    template_group: any[]
+}>({
+    template_group: {
+        api: apiSwapTemplateGroupAll
+    }
+})
 
 getLists()
 </script>
