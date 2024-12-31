@@ -48,8 +48,8 @@
                                 object-fit="contain"
                                 :preview-src-list="[
                                     row.user_image,
-                                    row.target_image,
-                                    row.result_image
+                                    row.result_image,
+                                    row.target_image
                                 ]"
                                 preview-teleported
                                 fit="contain"
