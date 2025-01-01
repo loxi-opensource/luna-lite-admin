@@ -17,7 +17,7 @@
                         href="https://signin.sensecore.cn/?login_challenge"
                         target="_blank"
                     >
-                        《商汤科技-日日新开发平台》
+                        《商汤科技-日日新开放平台》
                     </a>
                     注册账号并创建应用，获取应用ID和应用密钥
                 </div>
