@@ -15,17 +15,24 @@
                         <span> {{ workbenchData.version.version }}</span>
                     </div>
                     <div class="flex leading-9">
-                        <div class="w-20">获取渠道</div>
+                        <div class="w-20">开源项目</div>
                         <div>
                             <a :href="workbenchData.version.channel.website" target="_blank">
-                                <el-button type="success" size="small">官网</el-button>
+                                <el-button type="danger" size="small">博客</el-button>
                             </a>
                             <a
                                 class="ml-3"
-                                :href="workbenchData.version.channel.gitee"
+                                :href="workbenchData.version.channel.github"
                                 target="_blank"
                             >
-                                <el-button type="danger" size="small">Gitee</el-button>
+                                <el-button type="primary" size="small">Github</el-button>
+                            </a>
+                            <a
+                                class="ml-3"
+                                :href="workbenchData.version.channel.framework"
+                                target="_blank"
+                            >
+                                <el-button type="info" size="small">开源框架</el-button>
                             </a>
                         </div>
                     </div>
