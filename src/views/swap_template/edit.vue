@@ -23,6 +23,9 @@
                         />
                     </el-select>
                 </el-form-item>
+                <el-form-item label="组内排序" prop="sort">
+                    <el-input-number v-model="formData.sort" min="0" max="9999" />
+                </el-form-item>
                 <el-form-item label="目标图" prop="target_image">
                     <material-picker v-model="formData.target_image" />
                 </el-form-item>
@@ -74,7 +77,8 @@ const formData = reactive({
     name: '',
     status: 1,
     group_id: '',
-    target_image: ''
+    target_image: '',
+    sort: 0
 })
 
 // 表单验证
