@@ -5,6 +5,7 @@ import 'virtual:svg-icons-register'
 import { createApp } from 'vue'
 
 import { getConfig } from './api/app'
+// @ts-ignore
 import App from './App.vue'
 import install from './install'
 
