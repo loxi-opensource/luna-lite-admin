@@ -1,12 +1,7 @@
 <template>
     <div>
         <el-card class="!border-none mb-4" shadow="never">
-            <el-form
-                class="mb-[-16px]"
-                :model="queryParams"
-                inline
-            >
-                
+            <el-form class="mb-[-16px]" :model="queryParams" inline>
                 <el-form-item>
                     <el-button type="primary" @click="resetPage">查询</el-button>
                     <el-button @click="resetParams">重置</el-button>
@@ -42,7 +37,7 @@
                     </el-table-column>
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
-                             <el-button
+                            <el-button
                                 v-perms="['recharge_package/edit']"
                                 type="primary"
                                 link
@@ -66,27 +61,31 @@
                 <pagination v-model="pager" @change="getLists" />
             </div>
         </el-card>
-        <edit-popup v-if="showEdit" ref="editRef" :dict-data="dictData" @success="getLists" @close="showEdit = false" />
+        <edit-popup
+            v-if="showEdit"
+            ref="editRef"
+            :dict-data="dictData"
+            @success="getLists"
+            @close="showEdit = false"
+        />
     </div>
 </template>
 
 <script lang="ts" setup name="rechargePackageLists">
-import { usePaging } from '@/hooks/usePaging'
+import { apiRechargePackageDelete, apiRechargePackageLists } from '@/api/recharge_package'
 import { useDictData } from '@/hooks/useDictOptions'
-import { apiRechargePackageLists, apiRechargePackageDelete } from '@/api/recharge_package'
-import { timeFormat } from '@/utils/util'
+import { usePaging } from '@/hooks/usePaging'
 import feedback from '@/utils/feedback'
+import { timeFormat } from '@/utils/util'
+
 import EditPopup from './edit.vue'
 
 const editRef = shallowRef<InstanceType<typeof EditPopup>>()
 // 是否显示编辑框
 const showEdit = ref(false)
 
-
 // 查询条件
-const queryParams = reactive({
-    
-})
+const queryParams = reactive({})
 
 // 选中数据
 const selectData = ref<any[]>([])
@@ -129,4 +128,3 @@ const handleDelete = async (id: number | any[]) => {
 
 getLists()
 </script>
-
