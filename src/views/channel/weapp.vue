@@ -26,12 +26,14 @@
                         <el-input v-model="formData.original_id" placeholder="请输入原始ID" />
                     </div>
                 </el-form-item>
-                <el-form-item label="小程序码" prop="qr_code">
+                <el-form-item label="客服二维码" prop="qr_code">
                     <div class="flex-1">
                         <div>
                             <material-picker v-model="formData.qr_code" :limit="1" />
                         </div>
-                        <div class="form-tips">建议尺寸：宽400px*高400px。jpg，jpeg，png格式</div>
+                        <div class="form-tips">
+                            小程序个人中心页面，点击限时福利按钮，展示引流二维码。建议尺寸：宽400px*高400px。
+                        </div>
                     </div>
                 </el-form-item>
             </el-card>
