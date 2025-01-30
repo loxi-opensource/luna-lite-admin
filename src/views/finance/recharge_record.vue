@@ -72,9 +72,14 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="充值单号" prop="sn" min-width="190" />
-                <el-table-column label="充值金额" prop="order_amount" min-width="100">
-                </el-table-column>
+                <el-table-column label="订单号" prop="sn" min-width="190" />
+                <el-table-column label="订单金额" prop="order_amount" min-width="100" />
+                <el-table-column
+                    label="充值套餐"
+                    prop="recharge_package_description"
+                    min-width="180"
+                    show-overflow-tooltip
+                />
                 <el-table-column label="支付方式" prop="pay_way_text" min-width="100" />
                 <el-table-column label="支付状态" prop="" min-width="100">
                     <template #default="{ row }">
@@ -87,7 +92,7 @@
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column label="提交时间" prop="create_time" min-width="180" />
+                <el-table-column label="下单时间" prop="create_time" min-width="180" />
                 <el-table-column label="支付时间" prop="pay_time" min-width="180" />
                 <el-table-column label="操作" width="120" fixed="right">
                     <template #default="{ row }">

@@ -58,16 +58,15 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="手机号码" prop="mobile" min-width="100" />
-                <el-table-column label="变动金额" prop="change_amount" min-width="100">
+                <el-table-column label="变动张数" prop="change_amount" min-width="100">
                     <template #default="{ row }">
                         <span :class="{ 'text-error': row.action == 2 }">
                             {{ row.change_amount }}
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column label="剩余金额" prop="left_amount" min-width="100" />
+                <el-table-column label="剩余张数" prop="left_amount" min-width="100" />
                 <el-table-column label="变动类型" prop="change_type_desc" min-width="120" />
-
                 <el-table-column label="来源单号" prop="source_sn" min-width="100" />
                 <el-table-column label="记录时间" prop="create_time" min-width="120" />
             </el-table>
