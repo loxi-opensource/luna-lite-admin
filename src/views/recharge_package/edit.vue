@@ -16,21 +16,34 @@
                     <el-input v-model="formData.describe" clearable placeholder="请输入套餐描述" />
                 </el-form-item>
                 <el-form-item label="套餐价格" prop="sell_price">
-                    <el-input
+                    <el-input-number
                         v-model="formData.sell_price"
                         clearable
                         placeholder="请输入套餐价格"
+                        :min="0.01"
+                        :max="99999"
+                        :precision="2"
                     />
                 </el-form-item>
                 <el-form-item label="作图次数" prop="draw_number">
-                    <el-input
+                    <el-input-number
                         v-model="formData.draw_number"
                         clearable
                         placeholder="请输入作图次数"
+                        :min="1"
+                        :max="99999"
+                        :precision="0"
                     />
                 </el-form-item>
                 <el-form-item label="排序" prop="sort">
-                    <el-input v-model="formData.sort" clearable placeholder="请输入排序" />
+                    <el-input-number
+                        v-model="formData.sort"
+                        clearable
+                        placeholder="请输入排序"
+                        :min="0"
+                        :max="99999"
+                        :precision="0"
+                    />
                 </el-form-item>
                 <el-form-item label="套餐状态" prop="status">
                     <el-radio-group v-model="formData.status" placeholder="请选择套餐状态">
@@ -58,7 +71,6 @@ import {
     apiRechargePackageEdit
 } from '@/api/recharge_package'
 import Popup from '@/components/popup/index.vue'
-import { timeFormat } from '@/utils/util'
 defineProps({
     dictData: {
         type: Object as PropType<Record<string, any[]>>,
@@ -83,7 +95,7 @@ const formData = reactive({
     sell_price: '',
     draw_number: '',
     sort: '',
-    status: ''
+    status: 1
 })
 
 // 表单验证
